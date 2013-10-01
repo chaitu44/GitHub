@@ -11,62 +11,74 @@
 	//localStorage: new Backbone.LocalStorage("SomeCollection")
 	</script>
 	<script>
-		var Book = Backbone.Model.extend({
-		  url : "books",
-		  defaults : {
-		     id : 0,
-		     title : "<No Title Yet>",
-		     units : 10,
-		     unitCost : 0
-		  },
-		  initialize : function(){
-		    console.log("a new Book model instance is created");
-		  }
-		 
-		});
-
-		function BookView(model,templateId){
-			var _templateId = templateId;
-			this.$root = $($(_templateId).html());
-			var that = this;
-			function updateTitle(){
-				$("#txtTitle",that.$root).val(model.get("title"));
-			}
-
-			this.initialize = function(){
-				model.on("change:title",updateTitle);
-
-				$("#txtTitle",this.$root)
-					.change(function(){ model.set("title",this.value);});
-
-				$("#txtUnits",this.$root)
-					.val(model.get("units"))
-					.change(function(){ model.set("units",this.value);});
-
-				$("#txtUnitCost",this.$root)
-					.val(model.get("unitCost"))
-					.change(function(){ model.set("unitCost",this.value);});
-				updateTitle();
-			}
+	var Book = Backbone.Model.extend({
+		url : "books",
+		defaults : {
+			id : 0,
+			title : "<No Title Yet>",
+			units : 10,
+			unitCost : 0
+		},
+		initialize : function(){
+			console.log("a new Book model instance is created");
 		}
-		$(function(){
-			window.book = new Book();
-			window.bookView= new BookView(book,"#bookViewTemplate");
-			window.bookView.initialize();
-		});
+
+	});
+
+	var BooksCollection = Backbone.Collection.extend({
+		model : Book,
+		localStorage : new Backbone.LocalStorage("Books")
+	});
+
+	var BooksListView = Backbone.View.extend({
+		
+		tagName : "table",
+
+		initialize : function(){
+			
+			this.listenTo(this.collection,"all",this.render);
+		},
+		
+		
+
+		render : function(){
+			this.collection.each(function(b){
+				var row = "<tr><td>" + b.get("id") + "</td><td>" + b.get("title") + "</td><td>" +b.get("units") + "</td><td>" + b.get("unitCost") + "</td></tr>";
+				$el.append(row);
+			})
+			return this;
+		},
+
+		
+
+});
+
+
+	$(function(){
+		
+		window.book = new Book();
+		window.books = new BooksCollection();
+		var booksList = new BooksListView({collection : books});
+	});
 
 	</script>
-	<script type="text/template" id="bookViewTemplate">
-		<div id="content">
-		<div><label for="txtTitle">Title  :</label><input type="text" name="txtTitle" id="txtTitle"></div>
-		<div><label for="txtUnits">Units  :</label><input type="text" name="" id="txtUnits"></div>
-		<div><label for="txtUnitCost">Unit Cost  :</label><input type="text" name="" id="txtUnitCost"></div>
-		<input type="button" value="Save" id="btnSave"><input type="reset" value="Reset">
-		</div>
+	<script type="text/template" id="bookListViewTemplate">
+	<div id="content">
+	<table>
+	<tr>
+	<td id="bookTitle" value="<%=title%>">Title</td><td id="bookUnits" value="<%=units%>">Units</td><td id="bookUnitCost" value="<%=unitCost%>">UnitCost</td>
+	</tr>
+	</table>
+	</div>
 	</script>
 </head>
 <body>
-	
+	<div id="content">
+		<div><label for="txtTitle">Title  :</label><input type="text" name="txtTitle" id="txtTitle" ></div>
+		<div><label for="txtUnits">Units  :</label><input type="text" name="" id="txtUnits" ></div>
+		<div><label for="txtUnitCost">Unit Cost  :</label><input type="text" name="" id="txtUnitCost" ></div>
+		<input type="button" value="Save" id="btnSave"><input type="reset" value="Reset">
+	</div>
 	
 </body>
 </html>
