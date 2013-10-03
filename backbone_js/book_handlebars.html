@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<script src="jquery-1.10.2.js"></script>
+<script src="handlebars.js"></script>
+
+<script>
+$(function(){
+var source   = $("#entry-template").html();
+var template = Handlebars.compile(source);
+
+var context = {title: "My New Post", body: "This is my first post!"}
+var html    = template(context);
+console.log(html);
+$('body').append(html);
+
+});
+
+</script>
+
+<script id="entry-template" type="text/x-handlebars-template">
+	<div class="entry">
+	<h1>{{title}}</h1>
+	<div class="body">
+	{{body}}
+	</div>
+	</div>
+</script>
+
+<body>
+</body>
+</html>
