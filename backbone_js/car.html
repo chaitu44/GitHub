@@ -13,7 +13,7 @@
 	<script>
 		var Car = Backbone.Model.extend({
 			/*url : "cars",*/
-			localStorage : new Backbone.LocalStorage("cars"),
+			/*localStorage : new Backbone.LocalStorage("cars"),*/
 			defaults : {
 				car_model : "Some Brand",
 				yr_of_mfg : "2012",
@@ -43,6 +43,8 @@
 				return this;
 			},
 			saveCar : function () {
+				/*this.$el.append(this.compiledTemplate(this.model));
+				cars.fetch();*/
 				console.log(this.model.toJSON(), " saved.");
 			},
 			updateCar : function () {
@@ -73,9 +75,9 @@
 					contents = '<tr><th>Model</th><th>Manufacturing</th><th>Units</th><th>Price</th></tr>';
 				this.collection.each(function(b){
 					contents += "<tr><td>" + b.get("car_model") + "</td><td>" + b.get("yr_of_mfg") + "</td><td>" + b.get("units") + "</td><td>" + b.get("price") +"</td></tr>";
-					
+				
 				});
-				this.$el.html(contents);
+				this.$el.append(contents);
 				return this;
 			}
 		})
