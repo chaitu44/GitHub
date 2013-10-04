@@ -1,0 +1,4 @@
+	<div><label for="txtTitle">Title  :</label><input type="text" name="txtTitle" id="txtTitle" value="<%=get('title')%>"></div>
+	<div><label for="txtUnits">Units  :</label><input type="text" name="" id="txtUnits" value="<%=get('units')%>"></div>
+	<div><label for="txtUnitCost">Unit Cost  :</label><input type="text" name="" id="txtUnitCost" value="<%=get('unitCost')%>"></div>
+	<input type="button" value="Save" id="btnSave" <%=canBeSaved() ? '' : 'disabled'%>><input type="reset" value="Reset">

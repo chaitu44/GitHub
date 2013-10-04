@@ -9,22 +9,47 @@
 	<script src="backbone.js"></script>
 	<script src="backbone.localstorage.js"></script>
 
-	<script type="text/javascript">
+	<script type="text/template" id="categoriesTemplate">
+		<div id="categories">
+			<h1>All Categories will be manipulated here</h1>
+		</div>
+	</script>
+	<script type="text/template" id="productsTemplate">
+		<div id="categories">
+			<h1>All Productss will be manipulated here</h1>
+		</div>
+	</script>
+	<script>
+		var ProductsView = Backbone.View.extend({
+			template : Handlebars.complie($("#productsTemplate").html()),
+			initialize : function(){
+				console.log("categoriesView is initiated");
+				this.$el.appendTo(document.body);
+			},
+			render : function(){
+				this.$el = $(template({}));
+				return this;
+			},
+			toggleVisibility : function(){
+				this.$el.toggle();
+			}
+		});
+		var router = Backbone.Router.extend({
+
+		})
 
 	</script>
 	<style type="text/css">
-		div{
-			border: 3px solid black;
-			padding: 50px;
-		}
+	div{
+		border: 3px solid black;
+		padding: 50px;
+	}
 	</style>
 </head>
 <body>
 	<a href="#/products">Products</a>
 	<a href="#/categories">Categories</a>
-	<div id="categories">
-		<h1>All Categories will be manipulated here</h1>
-	</div>
+	
 	<div id="products">
 		<h1>All Products will be manipulated here</h1>
 	</div>
